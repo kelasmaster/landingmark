@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <!-- Add Marked.js for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -16,38 +16,9 @@
             <p>Your tagline goes here</p>
         </section>
 
-        <!-- Features Section -->
-        <section class="features">
-            {% include content.md %}
-        </section>
-
-        <!-- Testimonial Slider -->
-        <div class="swiper-container">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">"Amazing service!" - User 1</div>
-                <div class="swiper-slide">"Highly recommended!" - User 2</div>
-            </div>
-            <div class="swiper-pagination"></div>
-        </div>
-
-        <!-- Pricing Table -->
-        <section class="pricing">
-            <div class="price-card">
-                <h3>Basic</h3>
-                <p>$19/month</p>
-                <ul>
-                    <li>Feature 1</li>
-                    <li>Feature 2</li>
-                </ul>
-            </div>
-            <div class="price-card">
-                <h3>Premium</h3>
-                <p>$49/month</p>
-                <ul>
-                    <li>Feature 1</li>
-                    <li>Feature 2</li>
-                </ul>
-            </div>
+        <!-- Markdown Content Section -->
+        <section class="features" id="markdown-content">
+            <!-- Content from content.md will appear here -->
         </section>
 
         <!-- WhatsApp Form -->
@@ -61,15 +32,15 @@
         </form>
     </div>
 
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        // Initialize Swiper
-        new Swiper('.swiper-container', {
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-        });
+        // Load and render Markdown content
+        fetch('content.md')
+            .then(response => response.text())
+            .then(text => {
+                document.getElementById('markdown-content').innerHTML = 
+                    marked.parse(text);
+            })
+            .catch(error => console.error('Error loading content:', error));
 
         // WhatsApp Form Handling
         document.getElementById('whatsappForm').addEventListener('submit', function(e) {
@@ -79,19 +50,6 @@
             const whatsappUrl = `https://wa.me/6285773009666?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
         });
-    </script>
-    <script>
-        <!-- Replace the include section with this -->
-<div id="markdown-content"></div>
-
-<script>
-  fetch('content.md')
-    .then(response => response.text())
-    .then(text => {
-      document.getElementById('markdown-content').innerHTML = 
-        marked.parse(text);
-    });
-</script>
     </script>
 </body>
 </html>
